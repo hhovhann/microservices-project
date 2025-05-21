@@ -1,0 +1,21 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-service
+
+  config:
+    activate:
+      on-profile: docker
+
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:/config-repo
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.config: DEBUG

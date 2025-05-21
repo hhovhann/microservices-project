@@ -1,0 +1,16 @@
+spring:
+  ai:
+    openai:
+      api-key: OPENAI_API_KEY
+  datasource:
+    url: jdbc:postgresql://localhost:5432/microservices
+    username: user
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

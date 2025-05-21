@@ -1,0 +1,62 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-service
+  config:
+    import: "configserver:http://localhost:8888/"
+  cloud:
+      config:
+        fail-fast: true
+
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/microservices
+    username: user
+    password: password
+    hikari:
+      pool-name: user-service-pool
+
+  # JPA Configuration
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: user-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.config: DEBUG
+
+app:
+  token:
+    secret:
+      key: u3E7R9k7PX8j1tE2gLxWq9G7vZfHk3lTmHnPwNzT6aLgYrXy7zPqRsUwZp3MvBnK
+      expiration:
+        time: 36000000
+
+# Eureka Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
