@@ -102,6 +102,9 @@ services:
   notification-service:
     build:
       context: ./notification-service
+    container_name: notification-service
+    ports:
+      - "8082:8082"
     depends_on:
       - kafka
       - postgres
@@ -109,6 +112,32 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+  chat-service:
+    build:
+      context: ./chat-service
+    container_name: user-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - kafka
+      - postgres
+      - discovery-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  payment-service:
+    build:
+      context: ./payment-service
+    container_name: payment-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - kafka
+      - postgres
+      - discovery-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
 
   frontend:
     build:

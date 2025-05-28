@@ -1,0 +1,48 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: payment-service
+  # tell Spring Boot to import from a config server
+  config:
+    import: "optional:configserver:http://localhost:8888"
+
+  cloud:
+    config:
+      # redundant if you put the URI above, but you can also set it here
+      uri: http://localhost:8888
+      fail-fast: true
+
+  kafka:
+    bootstrap-servers: http://localhost:9092
+    consumer:
+      group-id: payment-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+# Stripe API Keys (Replace with your actual keys)
+# You can find these in your Stripe Dashboard: Developers -> API keys
+stripe:
+  secret:
+    key: sk_test_YOUR_STRIPE_SECRET_KEY
+  publishable:
+    key: pk_test_YOUR_STRIPE_PUBLISHABLE_KEY
+  webhook:
+    secret: whsec_YOUR_STRIPE_WEBHOOK_SECRET # Only needed if you implement webhooks
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.config: DEBUG
+
+# Eureka Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
