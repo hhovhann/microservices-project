@@ -61,7 +61,8 @@ replay_pid*
 *.tfstate
 *.tfstate.*
 *.tfplan
-.terraform.lock.hcl
+# DO NOT ignore lock file!
+!.terraform.lock.hcl
 crash.log
 override.tf
 override.tf.json
